@@ -10,9 +10,9 @@
 #'
 verify_analysis_key <- function(analysis_key) {
   if (analysis_key %>%
-      stringr::str_split(" @/@ ", simplify = TRUE) %>%
-      dim() %>%
-      `[[`(2) != 3) {
+    stringr::str_split(" @/@ ", simplify = TRUE) %>%
+    dim() %>%
+    `[[`(2) != 3) {
     stop("Analysis keys does not seem to follow the correct format")
   }
 }
@@ -35,3 +35,28 @@ verify_grep_AinB <- function(.A, .B) {
     sapply(FUN = function(xx) sum(stringr::str_detect(.B, pattern = xx)) > 0)
 }
 
+#' Verify that a given variable set as the expected number of values.
+#'
+#' @param var_name The name of the variable as string.
+#' @param values_set Vector with a the set of values.
+#' @param expected_number Expected numbers of unique value (excluding NA)
+#'
+#' @return If the number of unique value is different than the expected, it will show a warning.
+#' @export
+#'
+#' @examples
+#' verify_numbers_values("my_var", c("low", "borderline", "acceptable"), 3)
+#' verify_numbers_values("my_var", c("low", "borderline", "acceptable", NA), 3)
+#' verify_numbers_values("my_var", c("low", "acceptable", NA), 3)
+#' verify_numbers_values("my_var", c("none", "low", "borderline", "acceptable"), 3)
+verify_numbers_values <- function(var_name, values_set, expected_number) {
+  unique_values <- unique(values_set)
+
+  if (length(unique_values[!is.na(unique_values)]) != expected_number) {
+    msg <- glue::glue(
+      "Expecting ", expected_number, " of values in ", var_name, " but got ",
+      length(unique_values[!is.na(unique_values)]), " unique values."
+    )
+    warning(msg)
+  }
+}
