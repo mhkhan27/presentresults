@@ -1,3 +1,87 @@
+########## cehck without an option
+
+
+all_vars_expected_output <- readRDS(testthat::test_path("fixtures", "export_fewsnet2.RDS"))
+
+# removing non-core indicators
+with_fewsnet_matrix_output <- all_vars_expected_output %>%
+  dplyr::select(-dplyr::contains(c("income_v2_sum","expenditure_food")))
+
+
+presentresults_resultstable_2 <- presentresults_resultstable |>  dplyr::filter(analysis_var == "fcls_cat" & analysis_var_value != "phase_1")
+
+# with fewsnet matrix
+actual_output <- create_ipctwg_table(.results = presentresults_resultstable_2,
+                                     fclc_matrix_var = "fcls_cat",
+                                     fclc_matrix_values = c( "phase_2", "phase_3", "phase_4", "phase_5"),
+                                     fc_matrix_var = "fcm_cat",
+                                     fc_matrix_values = c("phase_1", "phase_2", "phase_3", "phase_4", "phase_5"),
+                                     with_fclc = T,
+                                     fcs_cat_values = c("low", "medium", "high"),
+                                     rcsi_cat_values = c("low", "medium", "high"),
+                                     lcsi_cat_var = "lcs_cat",
+                                     lcsi_cat_values = c("none", "stress", "emergency", "crisis"),
+                                     hhs_cat_var = "hhs_cat",
+                                     hhs_cat_values = c("none", "slight", "moderate", "severe", "very_severe"),
+                                     lcsi_set = c("liv_stress_lcsi_1",
+                                                  "liv_stress_lcsi_2",
+                                                  "liv_stress_lcsi_3",
+                                                  "liv_stress_lcsi_4",
+                                                  "liv_crisis_lcsi_1",
+                                                  "liv_crisis_lcsi_2",
+                                                  "liv_crisis_lcsi_3",
+                                                  "liv_emerg_lcsi_1",
+                                                  "liv_emerg_lcsi_2",
+                                                  "liv_emerg_lcsi_3")) %>%
+  suppressWarnings() %>%
+  dplyr::as_tibble()
+
+
+### not running, aslo error messege is wired
+# Error in create_ipctwg_table(.results = presentresults_resultstable_2, :
+#                                Following variables: fcm_cat, fcs_cat, rcsi_cat, lcs_cat, hhs_cat, fs_fcs_cereals_grains_roots_tubers, fs_fcs_beans_nuts, fs_fcs_dairy, fs_fcs_meat_fish_eggs, fs_fcs_vegetables_leaves, fs_fcs_fruit, fs_fcs_oil_fat_butter, fs_fcs_sugar, fs_fcs_condiment, rCSILessQlty, rCSIBorrow, rCSIMealSize, rCSIMealAdult, rCSIMealNb, rCSILessQlty, rCSIBorrow, rCSIMealSize, rCSIMealAdult, rCSIMealNb, liv_stress_lcsi_1, liv_stress_lcsi_2, liv_stress_lcsi_3, liv_stress_lcsi_4, liv_crisis_lcsi_1, liv_crisis_lcsi_2, liv_crisis_lcsi_3, liv_emerg_lcsi_1, liv_emerg_lcsi_2, liv_emerg_lcsi_3 cannot be found in the results table
+
+
+
+
+#########################################33
+
+
+actual_output <- create_ipctwg_table(.results = presentresults_resultstable,
+                                     fclc_matrix_var = "fcls_cat",
+                                     fclc_matrix_values = c("phase_1","phase_6", "phase_2", "phase_3", "phase_4", "phase_5"),
+                                     fc_matrix_var = "fcm_cat",
+                                     fc_matrix_values = c("phase_1", "phase_2", "phase_3", "phase_4", "phase_5"),
+                                     with_fclc = T,
+                                     fcs_cat_values = c("low", "medium", "high"),
+                                     rcsi_cat_values = c("low", "medium", "high"),
+                                     lcsi_cat_var = "lcs_cat",
+                                     lcsi_cat_values = c("none", "stress", "emergency", "crisis"),
+                                     hhs_cat_var = "hhs_cat",
+                                     hhs_cat_values = c("none", "slight", "moderate", "severe", "very_severe"),
+                                     lcsi_set = c("liv_stress_lcsi_1",
+                                                  "liv_stress_lcsi_2",
+                                                  "liv_stress_lcsi_3",
+                                                  "liv_stress_lcsi_4",
+                                                  "liv_crisis_lcsi_1",
+                                                  "liv_crisis_lcsi_2",
+                                                  "liv_crisis_lcsi_3",
+                                                  "liv_emerg_lcsi_1",
+                                                  "liv_emerg_lcsi_2",
+                                                  "liv_emerg_lcsi_3")) %>%
+  suppressWarnings() %>%
+  dplyr::as_tibble()
+
+## additional perameter is not showing anything  ###fclc_matrix_values = c("phase_1","phase_6"
+
+
+
+
+####################33
+
+
+
+
 test_that("that the results are correctly displayed", {
   all_vars_expected_output <- readRDS(testthat::test_path("fixtures", "export_fewsnet2.RDS"))
 
